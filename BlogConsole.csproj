@@ -7,9 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
- <ItemGroup>
-     <PackageReference Include="NLog" Version="5.3.3" />
-   </ItemGroup>
- 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="NLog" Version="5.3.3" />
+  </ItemGroup>
 
 </Project>
