@@ -4,6 +4,13 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using NLog;
 string path = Directory.GetCurrentDirectory() + "//nlog.config";
 
+
+
+///refactor code to use les repeated code
+/// check and fix bugs
+/// add formating to make output more readable
+
+
 // create instance of Logger
 var logger = LogManager.Setup().LoadConfigurationFromFile(path).GetCurrentClassLogger();
  var db = new DataContext();
@@ -42,6 +49,7 @@ switch (userInput)
         {
             Console.WriteLine(item.Name);
         }
+        //better spacing
         logger.Info("Displayed all blogs");
         break;
 
