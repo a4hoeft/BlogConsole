@@ -34,7 +34,8 @@ switch (userInput)
 
     case "2":
         // Display all Blogs from the database
-        var query = db.Blogs.OrderBy(b => b.Name);
+        var query = db.Blogs.OrderBy(b => b.Name); ///reused code differnt varible names make magic?
+
 
         Console.WriteLine("All blogs in the database:");
         foreach (var item in query)
@@ -48,7 +49,7 @@ switch (userInput)
         // Code for creating a post
         //new menu for selecting the blog to add a post
         Console.WriteLine("Select a Blog to create a Post:"); 
-        foreach (var blog in db.Blogs.OrderBy(b => b.Name))
+        foreach (var blog in db.Blogs.OrderBy(b => b.Name)) ///reaused code differnt varible names make magic?
         {
             Console.WriteLine($"{blog.BlogId}. {blog.Name}");
         }
@@ -82,7 +83,29 @@ switch (userInput)
 
     case "4":
         // Code for displaying posts
-        Console.WriteLine("Display Posts functionality not implemented yet.");
+        Console.WriteLine("Select a Blog to display Posts:");
+        foreach (var blog in db.Blogs.OrderBy(b => b.Name)) ///reused code differnt varible names make magic?
+        {
+            Console.WriteLine($"{blog.BlogId}. {blog.Name}");
+        }
+        Console.Write("Enter the Blog ID: ");
+        var displayBlogIdInput = Console.ReadLine();
+        if (int.TryParse(displayBlogIdInput, out int displayBlogId))
+        {
+            var posts = db.Posts.Where(p => p.BlogId == displayBlogId).OrderBy(p => p.Title);
+            Console.WriteLine($"Posts for Blog ID {displayBlogId}:");
+            foreach (var post in posts)
+            {
+                Console.WriteLine($"Title: {post.Title}");
+                Console.WriteLine($"Content: {post.Content}");
+                Console.WriteLine();
+            }
+            logger.Info("Displayed posts for Blog ID - {blogId}", displayBlogId);
+        }
+        else
+        {
+            Console.WriteLine("Invalid Blog ID.");
+        }
         break;
 
     case "5":
