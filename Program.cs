@@ -7,7 +7,7 @@ string path = Directory.GetCurrentDirectory() + "//nlog.config";
 // create instance of Logger
 var logger = LogManager.Setup().LoadConfigurationFromFile(path).GetCurrentClassLogger();
  var db = new DataContext();
- 
+
 logger.Info("Program started");
 
 // Display menu options
@@ -27,8 +27,8 @@ switch (userInput)
 
         var newBlog = new Blog { Name = blogName };
 
-       
         db.AddBlog(newBlog);
+        Console.WriteLine($"Blog '{blogName}' added successfully."); //verification for the user
         logger.Info("Blog added - {name}", blogName);
         break;
 
@@ -46,8 +46,39 @@ switch (userInput)
 
     case "3":
         // Code for creating a post
-        Console.WriteLine("Create Post functionality not implemented yet.");
-        break;
+        //new menu for selecting the blog to add a post
+        Console.WriteLine("Select a Blog to create a Post:"); 
+        foreach (var blog in db.Blogs.OrderBy(b => b.Name))
+        {
+            Console.WriteLine($"{blog.BlogId}. {blog.Name}");
+        }
+        Console.Write("Enter the Blog ID: ");
+        var blogIdInput = Console.ReadLine();
+        if (int.TryParse(blogIdInput, out int blogId))
+        {
+            Console.Write("Enter the Post Title: ");
+            var postTitle = Console.ReadLine();
+            Console.Write("Enter the Post Content: ");
+            var postContent = Console.ReadLine();
+
+            var newPost = new Post
+            {
+                Title = postTitle,
+                Content = postContent,
+                BlogId = blogId
+            };
+
+            db.Posts.Add(newPost);
+            db.SaveChanges();
+            Console.WriteLine($"Post '{postTitle}' created successfully.");
+            logger.Info("Post created - {title}", postTitle);
+        }
+        else
+        {
+            Console.WriteLine("Invalid Blog ID.");
+        }
+        break; 
+        //bug will let usere enter invalid id create a post without blog and the break code
 
     case "4":
         // Code for displaying posts
