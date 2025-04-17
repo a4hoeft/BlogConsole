@@ -24,7 +24,7 @@ Console.WriteLine("2. Display all Blogs");
 Console.WriteLine("3. Create Post");
 Console.WriteLine("4. Display Posts");
 Console.WriteLine("5. Exit");
-string userInput = Console.ReadLine();
+string userInput = Console.ReadLine(); //validation on user input 
 
 switch (userInput)
 {
@@ -41,7 +41,7 @@ switch (userInput)
 
     case "2":
         // Display all Blogs from the database
-        var query = db.Blogs.OrderBy(b => b.Name); ///reused code differnt varible names make magic?
+        var query = db.Blogs.OrderBy(b => b.Name);
 
 
         Console.WriteLine("All blogs in the database:");
@@ -54,16 +54,20 @@ switch (userInput)
         break;
 
     case "3":
-        // Code for creating a post
-        //new menu for selecting the blog to add a post
-        Console.WriteLine("Select a Blog to create a Post:"); 
-        foreach (var blog in db.Blogs.OrderBy(b => b.Name)) ///reaused code differnt varible names make magic?
-        {
-            Console.WriteLine($"{blog.BlogId}. {blog.Name}");
-        }
-        Console.Write("Enter the Blog ID: ");
-        var blogIdInput = Console.ReadLine();
-        if (int.TryParse(blogIdInput, out int blogId))
+    // Code for creating a post
+    Console.WriteLine("Select a Blog to create a Post:");
+    foreach (var blog in db.Blogs.OrderBy(b => b.Name)) // Display all blogs
+    {
+        Console.WriteLine($"{blog.BlogId}. {blog.Name}");
+    }
+    Console.Write("Enter the Blog ID: ");
+    var blogIdInput = Console.ReadLine();
+
+    if (int.TryParse(blogIdInput, out int blogId))
+    {
+        // Check if the Blog ID exists in the database
+        var selectedBlog = db.Blogs.FirstOrDefault(b => b.BlogId == blogId);
+        if (selectedBlog != null)
         {
             Console.Write("Enter the Post Title: ");
             var postTitle = Console.ReadLine();
@@ -84,15 +88,19 @@ switch (userInput)
         }
         else
         {
-            Console.WriteLine("Invalid Blog ID.");
+            Console.WriteLine("Invalid Blog ID. No blog found with the given ID.");
         }
-        break; 
-        //bug will let usere enter invalid id create a post without blog and the break code
-
+    }
+    else
+    {
+        Console.WriteLine("Invalid input. Please enter a valid numeric Blog ID.");
+    }
+    break;
+     
     case "4":
         // Code for displaying posts
         Console.WriteLine("Select a Blog to display Posts:");
-        foreach (var blog in db.Blogs.OrderBy(b => b.Name)) ///reused code differnt varible names make magic?
+        foreach (var blog in db.Blogs.OrderBy(b => b.Name)) 
         {
             Console.WriteLine($"{blog.BlogId}. {blog.Name}");
         }
